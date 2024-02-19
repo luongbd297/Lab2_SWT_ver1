@@ -17,7 +17,7 @@ public class ExamScheduleDAO extends dal.DBContext {
         String query = "SELECT * FROM  ExamSchedules INNER JOIN Subjects \n"
                 + "ON ExamSchedules.SubjectID = Subjects.SubjectID INNER JOIN \n"
                 + "Locations ON ExamSchedules.LocationID = Locations.LocationID";
-        PreparedStatement stmt = null;
+    PreparedStatement stmt = null;
     ResultSet rs = null;
 
     try {
@@ -60,6 +60,8 @@ public class ExamScheduleDAO extends dal.DBContext {
 
     public void addExamSchedule(ExamSchedule examSchedule) {
         String query = "INSERT INTO dbo.ExamSchedules (SubjectID, ExamDate, LocationID, StartAt, EndAt) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = null;
+        ResultSet rs = null;
 
         try {
             PreparedStatement stmt = connection.prepareStatement(query);

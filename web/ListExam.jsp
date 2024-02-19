@@ -9,7 +9,7 @@
 <%@page import="model.ExamSchedule"  %>
 <%@page import="java.util.ArrayList" %>
 <!DOCTYPE html>
-<html>
+<html lang="en" xml:lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Exam Page</title>

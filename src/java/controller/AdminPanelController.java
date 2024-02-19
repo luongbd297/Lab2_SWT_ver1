@@ -81,72 +81,75 @@ public class AdminPanelController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String mod = request.getParameter("mod");
-        String action = request.getParameter("action");
-        User user = SessionManager.getSessionUser(request);
-        request.setAttribute("user", user);
-        if (mod != null && mod.equals("1")) {
-            if (action != null && action.equals("1")) {
-                String id = request.getParameter("id");
-                ExamSchedule e = examDAO.getExamScheduleById(id);
-                request.setAttribute("e", e);
-                ArrayList<Subject> subjects = subjectDAO.getAllSubjects();
-                ArrayList<Location> locations = locationDAO.getAllLocations();
-                request.setAttribute("subjects", subjects);
-                request.setAttribute("locations", locations);
-                request.getRequestDispatcher("UpdateExamSchedule.jsp").forward(request, response);
-            }
-            if (action != null && action.equals("2")) {
-                String id = request.getParameter("id");
-                examDAO.deleteExamSchedule(id);
-            }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String mod = request.getParameter("mod");
+    String action = request.getParameter("action");
+    User user = SessionManager.getSessionUser(request);
+    request.setAttribute("user", user);
+
+    if (mod != null && mod.equals("1")) {
+        if (action != null && action.equals("1")) {
+            String id = request.getParameter("id");
+            ExamSchedule e = examDAO.getExamScheduleById(id);
+            request.setAttribute("e", e);
             ArrayList<Subject> subjects = subjectDAO.getAllSubjects();
-            ArrayList<ExamSchedule> exams = examDAO.getAllExamSchedules();
             ArrayList<Location> locations = locationDAO.getAllLocations();
             request.setAttribute("subjects", subjects);
-            request.setAttribute("exams", exams);
             request.setAttribute("locations", locations);
-            request.getRequestDispatcher("ExamScheduleList.jsp").forward(request, response);
-        } else if (mod != null && mod.equals("0")) {
-            request.getRequestDispatcher("AdminProfile.jsp").forward(request, response);
-        } else if (mod != null && mod.equals("3")) {
-            ArrayList<Notification> notes = noteDAO.getNotificationsByAccount(user.getAccount());
-            request.setAttribute("note", notes);
-            request.getRequestDispatcher("ListRegistration.jsp").forward(request, response);
-            
+            request.getRequestDispatcher("UpdateExamSchedule.jsp").forward(request, response);
+        } else if (action != null && action.equals("2")) {
             String id = request.getParameter("id");
-            Notification note = noteDAO.getNotificationById(id);
-            System.out.println(note);
-            Registration regis = registerDAO.getRegistrationById(note.getRegistration());
-            System.out.println(regis);
-            Notification newNote = null;
-            
-            if (action != null && action.equals("0")) {
-                regis.setStatus("Accepted");
-                newNote = new Notification("", regis.getUser(), "Request is accepted", regis.getId(), "0");
-            }
-            if (action != null && action.equals("1")) {
-                regis.setStatus("Rejected");
-                newNote = new Notification("", regis.getUser(), "Request is rejected", regis.getId(), "0");
-            }
-            note.setStatus("1");
-            noteDAO.addNotification(newNote);
-            registerDAO.updateRegistration(regis);
-            ArrayList<Registration> regisList = registerDAO.getAllRegistrations();
-            ArrayList<Registration> filter = new ArrayList();
-            for (Registration r : regisList) {
-                if (r != null && r.getStatus().equals("Accepted")) {
-                    filter.add(r);
-                }
-            }
-            request.setAttribute("list", filter);
-            request.getRequestDispatcher("ListStudent").forward(request, response);
-        } else {
-            response.sendRedirect("Admin.jsp");
+            examDAO.deleteExamSchedule(id);
         }
+
+        ArrayList<Subject> subjects = subjectDAO.getAllSubjects();
+        ArrayList<ExamSchedule> exams = examDAO.getAllExamSchedules();
+        ArrayList<Location> locations = locationDAO.getAllLocations();
+        request.setAttribute("subjects", subjects);
+        request.setAttribute("exams", exams);
+        request.setAttribute("locations", locations);
+        request.getRequestDispatcher("ExamScheduleList.jsp").forward(request, response);
+    } else if (mod != null && mod.equals("0")) {
+        request.getRequestDispatcher("AdminProfile.jsp").forward(request, response);
+    } else if (mod != null && mod.equals("3")) {
+        ArrayList<Notification> notes = noteDAO.getNotificationsByAccount(user.getAccount());
+        request.setAttribute("note", notes);
+        request.getRequestDispatcher("ListRegistration.jsp").forward(request, response);
+
+        String id = request.getParameter("id");
+        Notification note = noteDAO.getNotificationById(id);
+        System.out.println(note);
+        Registration regis = registerDAO.getRegistrationById(note.getRegistration());
+        System.out.println(regis);
+        Notification newNote = null;
+
+        if (action != null && action.equals("0")) {
+            regis.setStatus("Accepted");
+            newNote = new Notification("", regis.getUser(), "Request is accepted", regis.getId(), "0");
+        } else if (action != null && action.equals("1")) {
+            regis.setStatus("Rejected");
+            newNote = new Notification("", regis.getUser(), "Request is rejected", regis.getId(), "0");
+        }
+
+        note.setStatus("1");
+        noteDAO.addNotification(newNote);
+        registerDAO.updateRegistration(regis);
+        ArrayList<Registration> regisList = registerDAO.getAllRegistrations();
+        ArrayList<Registration> filter = new ArrayList<>();
+
+        for (Registration r : regisList) {
+            if (r != null && r.getStatus().equals("Accepted")) {
+                filter.add(r);
+            }
+        }
+
+        request.setAttribute("list", filter);
+        request.getRequestDispatcher("ListStudent").forward(request, response);
+    } else {
+        response.sendRedirect("Admin.jsp");
     }
+}
+    
 
     /**
      * Handles the HTTP <code>POST</code> method.

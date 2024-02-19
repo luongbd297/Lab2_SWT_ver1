@@ -17,6 +17,7 @@ public class ExamScheduleDAO extends dal.DBContext {
         String query = "SELECT * FROM  ExamSchedules INNER JOIN Subjects \n"
                 + "ON ExamSchedules.SubjectID = Subjects.SubjectID INNER JOIN \n"
                 + "Locations ON ExamSchedules.LocationID = Locations.LocationID";
+        
     PreparedStatement stmt = null;
     ResultSet rs = null;
 

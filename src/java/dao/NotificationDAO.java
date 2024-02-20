@@ -16,7 +16,7 @@ import model.Notification;
  */
 public class NotificationDAO extends dal.DBContext {
 
-    public ArrayList<Notification> getNotificationsByAccount(String account) {
+  public ArrayList<Notification> getNotificationsByAccount(String account) {
     ArrayList<Notification> notifications = new ArrayList<>();
     try {
         String query = "SELECT Notifications.*, Registrations.*, Locations.*, ExamSchedules.*, Subjects.*\n"
@@ -34,9 +34,9 @@ public class NotificationDAO extends dal.DBContext {
             String notificationId = String.valueOf(resultSet.getInt("NotificationId"));
             String registration = resultSet.getString(7) + " join in exam "
                     + resultSet.getString("SubjectName") + " at "
-                    + String.valueOf(resultSet.getDate("ExamDate")) + " (From  "
-                    + String.valueOf(resultSet.getTime("StartAt")) + " To "
-                    + String.valueOf(resultSet.getTime("EndAt")) + ") in "
+                    + resultSet.getDate("ExamDate") + " (From "
+                    + resultSet.getTime("StartAt") + " To "
+                    + resultSet.getTime("EndAt") + ") in "
                     + resultSet.getString("Room") + ", "
                     + resultSet.getString("SiteName") + ", "
                     + resultSet.getString("ClusterName");

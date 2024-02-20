@@ -232,10 +232,6 @@ background text
     cursor: pointer;
 }
 
-.cont_forms_active_sign_up {
-    z-index: 2;
-}
-
 @-webkit-keyframes animar_fondo {
     from {
         -webkit-transform: scale(1) translate(0px);

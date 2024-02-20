@@ -18,6 +18,7 @@ public class DBContext {
 
     protected Connection connection;
 
+
     public DBContext() {
         //@Students: You are allowed to edit user, pass, url variables to fit 
         //your system configuration
@@ -27,8 +28,9 @@ public class DBContext {
         //where StudentDBContext is located in dal package, 
         try {
             String user = "sa";
-            String pass = "123";
+            String pass = "your_new_password_here"; // Change the password here
             String url = "jdbc:sqlserver://localhost\\DESKTOP-COBQ1UU\\EROKO:1433;databaseName=Web_Database;encrypt=true;trustServerCertificate=true";
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);

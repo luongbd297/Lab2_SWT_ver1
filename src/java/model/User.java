@@ -9,8 +9,13 @@ package model;
  * @author 84354
  */
 public class User {
-
-    String account, password, userName, email, phone, address, role;
+String account;
+String password;
+String userName;
+String email;
+String phone;
+String address;
+String role;
 
     public User() {
     }

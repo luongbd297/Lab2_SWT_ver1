@@ -119,7 +119,6 @@ public class StudentPanelController extends HttpServlet {
         } else if (mod != null && mod.equals("3")) {
             if (action != null && action.equals("0")) {
                 String id = request.getParameter("id");
-                Notification note = noteDAO.getNotificationById(id);
                 noteDAO.deleteNotification(id);
             }
             ArrayList<Notification> notes = noteDAO.getNotificationsByAccount(user.getAccount());

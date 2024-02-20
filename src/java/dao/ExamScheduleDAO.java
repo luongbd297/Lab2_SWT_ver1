@@ -10,21 +10,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import model.ExamSchedule;
 
-public class ExamScheduleDAO extends dal.DBContext {
+public List<ExamSchedule> getAllExamSchedules() {
+    List<ExamSchedule> examSchedules = new ArrayList<>();
+    String query = "SELECT * FROM  ExamSchedules INNER JOIN Subjects \n"
+            + "ON ExamSchedules.SubjectID = Subjects.SubjectID INNER JOIN \n"
+            + "Locations ON ExamSchedules.LocationID = Locations.LocationID";
 
-    public ArrayList<ExamSchedule> getAllExamSchedules() {
-        ArrayList<ExamSchedule> examSchedules = new ArrayList<>();
-        String query = "SELECT * FROM  ExamSchedules INNER JOIN Subjects \n"
-                + "ON ExamSchedules.SubjectID = Subjects.SubjectID INNER JOIN \n"
-                + "Locations ON ExamSchedules.LocationID = Locations.LocationID";
-        
     PreparedStatement stmt = null;
     ResultSet rs = null;
 
     try {
         stmt = connection.prepareStatement(query);
         rs = stmt.executeQuery();
-    
+
         while (rs.next()) {
             String examId = String.valueOf(rs.getInt("ExamId"));
             String subject = rs.getString("SubjectName");
@@ -46,7 +44,7 @@ public class ExamScheduleDAO extends dal.DBContext {
                 ex.getMessage();
             }
         }
-    
+
         if (stmt != null) {
             try {
                 stmt.close();
@@ -56,8 +54,8 @@ public class ExamScheduleDAO extends dal.DBContext {
         }
     }
 
-        return examSchedules;
-    }
+    return examSchedules;
+}
 
     public void addExamSchedule(ExamSchedule examSchedule) {
         String query = "INSERT INTO dbo.ExamSchedules (SubjectID, ExamDate, LocationID, StartAt, EndAt) VALUES (?, ?, ?, ?, ?)";

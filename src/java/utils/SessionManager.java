@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import model.User;
 
-public class SessionManager {
+private class SessionManager {
 
     public static final String USER_SESSION_ATTRIBUTE = "user";
 
